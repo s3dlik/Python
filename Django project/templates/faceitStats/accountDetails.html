@@ -1,0 +1,182 @@
+{% extends "faceitStats/layout.html" %}
+{% block layout %}
+    {% load static %}
+<div class="bg-image"></div>
+
+    <div class="container-fluid-det">
+        <div class="toppane">
+            {% load static %}
+            <a href="{% url 'index'%}" title="Go to main page">
+                <img class="img-mine" src="{% static 'style/images/fct.png' %}" width="600">
+            </a>
+        </div>
+            <div class="top-panel-text-det">
+                     <div class="avatar">
+                        <img class="img-mine" src="{% if acc.avatar != "" %}{{ acc.avatar }}{% else %}{% static 'style/images/def.jpg' %} {% endif %}" width="200" height="200" alt="Users profile picture" border="4px solid black">
+                     </div>
+                    <div class="data">
+                        {% for key, ele in details.items %}
+                            {% if key != 'Level' and key != 'Player_id'%}
+                                <li style="color: white; text-align: left; margin-top: 2px">{{ key}} - {{ ele }}</li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% for key, ele in details.items %}
+                            {% if key == 'Level'%}
+                                <li style="color: white;text-align: left; margin-top: 5px">{{ key }}  <img src="{% if ele == 10 %}{% static 'style/images/levels/lv10.png'%}{% elif ele == 9 %}{% static 'style/images/levels/lv9.png'%}{% elif ele == 8 %}{% static 'style/images/levels/lv8.png'%}{% elif ele == 7 %}{% static 'style/images/levels/lv7.png'%}{% elif ele == 6 %}{% static 'style/images/levels/lv6.png'%}{% elif ele == 5 %}{% static 'style/images/levels/lv5.png'%}{% elif ele == 4 %}{% static 'style/images/levels/lv4.png'%}{% elif ele == 3 %}{% static 'style/images/levels/lv3.png'%}{% elif ele == 2 %}{% static 'style/images/levels/lv2.png'%}{% elif ele == 1 %}{% static 'style/images/levels/lv1.png'%}{% else %}{% static 'style/images/levels/lv3.png' %}{% endif %}" style="float: right;margin-right: 140px; margin-top: auto"></li>
+
+                           {% endif %}
+                        {% endfor %}
+
+                        {% for key, ele in lifetime.items %}
+                            {% if key == 'Number of games' %}
+                                <li style="color: white; text-align: left; margin-top: 5px">Total matches: {{ ele }}</li>
+
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+            </div>
+
+
+
+            <div class="tab-content" id="myTabContent">
+                <h4 style="color: white; text-align: center; font-weight: bold">Matches</h4>
+              <div class="matches" id="Matches">
+                {% for key, ele in lifetime.items %}
+                    {% if key == 'Win rate' %}
+                        <li style="color: white;list-style-type: none;text-align: center; margin-left: 5px;font-weight: bold; font-size: 20px;">Average win rate - {{ ele }} %</li>
+                        {% elif key ==  'Average headshots'%}
+                            <li style="color: white;text-align: center;list-style-type: none; margin-left: 5px;font-weight: bold; font-size: 20px;">Average <img class="img-hs" src="{% static 'style/images/hs25.png' %}"> - {{ ele }}%</li>
+                        <div style="text-align: center;">
+                        {% elif key == 'Recent results'%}
+                            <li style="color: white;list-style-type: none;text-align: center; display: inline;font-weight: bold; font-size: 20px;">Recent results: </li>
+                            {% for tmp in ele%}
+                                {% if tmp == '0' %}
+                                    <h4 style="font-size: 20px;color: darkred; display: inline; text-align: center; font-weight: bold;">Lose </h4>
+                                    {% else %}
+                                    <h4 style="font-size: 20px;color: lightgreen; display: inline; text-align: center; font-weight: bold;">Win </h4>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <li style="color: white; text-align: center;list-style-type: none; margin-left: 5px; font-weight: bold; font-size: 20px;">{{ key}} - {{ ele }}</li>
+                    {% endif %}
+                {% endfor %}
+
+              </div>
+
+
+        </div>
+
+        <div class="maps-details">
+            <h4 style="color: white;font-weight: bold;text-align: center">Maps</h4>
+        <div class="maps-buttons">
+            <table>
+                <li>
+                    <form action="{% url 'accountDetailsPost' %}" method="post">{% csrf_token %}
+                          <input type="hidden" value="{{ acc.id }}" name="acc-id">
+                          <input type="hidden" value="de_inferno" name="map_name">
+                          <button class="button" type="submit">
+                              de_inferno
+                          </button>
+                  </form>
+                </li>
+                <li>
+                    <form action="{% url 'accountDetailsPost' %}" method="post">{% csrf_token %}
+                          <input type="hidden" value="{{ acc.id }}" name="acc-id">
+                          <input type="hidden" value="de_mirage" name="map_name">
+                          <button class="button" type="submit">
+                              de_mirage
+                          </button>
+                  </form>
+                </li>
+                <li>
+                    <form action="{% url 'accountDetailsPost' %}" method="post">{% csrf_token %}
+                          <input type="hidden" value="{{ acc.id }}" name="acc-id">
+                        <input type="hidden" value="de_dust2" name="map_name">
+                          <button class="button" type="submit">
+                              de_dust2
+                          </button>
+                  </form>
+                </li>
+                <li>
+                    <form action="{% url 'accountDetailsPost' %}" method="post">{% csrf_token %}
+                          <input type="hidden" value="{{ acc.id }}" name="acc-id">
+                        <input type="hidden" value="de_vertigo" name="map_name">
+                          <button class="button" type="submit">
+                              de_vertigo
+                          </button>
+                  </form>
+                </li>
+                <li>
+                    <form action="{% url 'accountDetailsPost' %}" method="post">{% csrf_token %}
+                          <input type="hidden" value="{{ acc.id }}" name="acc-id">
+                        <input type="hidden" value="de_nuke" name="map_name">
+                          <button class="button" type="submit">
+                              de_nuke
+                          </button>
+                  </form>
+                </li>
+                <li>
+                    <form action="{% url 'accountDetailsPost' %}" method="post">{% csrf_token %}
+                          <input type="hidden" value="{{ acc.id }}" name="acc-id">
+                        <input type="hidden" value="de_train" name="map_name">
+                          <button class="button" type="submit">
+                              de_train
+                          </button>
+                  </form>
+                </li>
+                <li>
+                    <form action="{% url 'accountDetailsPost' %}" method="post">{% csrf_token %}
+                          <input type="hidden" value="{{ acc.id }}" name="acc-id">
+                        <input type="hidden" value="de_cache" name="map_name">
+                          <button class="button" type="submit">
+                              de_cache
+                          </button>
+                  </form>
+                </li>
+                <li>
+                    <form action="{% url 'accountDetailsPost' %}" method="post">{% csrf_token %}
+                          <input type="hidden" value="{{ acc.id }}" name="acc-id">
+                        <input type="hidden" value="de_overpass" name="map_name">
+                          <button class="button" type="submit">
+                              de_overpass
+                          </button>
+                  </form>
+                </li>
+            </table>
+        </div>
+        <div class="maps-elements">
+            <table class="table">
+                <tr>
+                {% if map_details is not None %}
+                    {% for key, elem in map_details.items %}
+                        {% if key == 'Image'%}
+                            <img src="{{ elem }}" width="250" height="135">
+                            {% elif key == 'Total headshots' %}
+                                <h3 style="color: white;">Total <img src="{% static 'style/images/hs25.png' %}"> - {{ elem }}</h3>
+                            {% elif key == 'Win rate' %}
+                                <h3 style="color: white;">{{ key }} - {{ elem }}%</h3>
+                        {% else %}
+                            <h3 style="color: white;">{{ key }} - {{ elem }}</h3>
+                        {% endif %}
+                    {% endfor %}
+                {% elif map_details is None %}
+                    <h4 style="color: white;">No map was selected!</h4>
+                {% endif %}
+                </tr>
+            </table>
+        </div>
+        </div>
+        <div class="statistics-details">
+            <h4 style="color: white;font-weight: bold;text-align: center">Statistics</h4>
+            {% for key, ele in details.items %}
+                {% if key == 'Player_id' %}
+                    <img src="{% static 'style/images/graphs/'|add:ele|add:".png" %}" style="padding-top: 50px;">
+                        {% endif %}
+            {% endfor %}
+
+        </div>
+
+    </div>
+{% endblock %}

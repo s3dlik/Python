@@ -1,0 +1,30 @@
+{% extends "faceitStats/layout.html" %}
+{% block layout %}
+
+<div class="bg-image"></div>
+
+    <div class="container-fluid">
+        <div class="toppane">
+            {% load static %}
+            <img src="{% static 'style/images/fct.png' %}">
+            </div>
+        <div class="leftpane">
+            <div class="menu">
+                <h1><a href="{% url 'index' %}"><button class="btnPlayers" type="button">Home</button></a></h1>
+                <h1 style="color: white; text-align: center">Players</h1>
+
+            </div>
+        </div>
+        {% for acc in account %}
+            <div class="display-user">
+            <h4 style="color: white; margin: 7px; text-align: center">Player name:</h4>
+
+                <p><h4 style="text-align: center"><a href="{% url 'accountDetails' acc.id %}">{{ acc.accountUrl}}</a></h4></p>
+                <h4 style="color: white; text-align: center">Level: {{ acc.level }}</h4>
+                <img src="{% if acc.avatar != "" %}{{ acc.avatar }}{% else %}{% static 'style/images/def.jpg' %} {% endif %}">
+
+            </div>
+
+        {% endfor %}
+    </div>
+{% endblock %}

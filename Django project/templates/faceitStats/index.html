@@ -1,0 +1,52 @@
+{% extends "faceitStats/layout.html" %}
+{% block layout %}
+<div class="bg-image"></div>
+<div class="container-fluid">
+
+    <div class="toppane">
+
+        {% load static %}
+        <img class="img-mine" src="{% static 'style/images/fct.png' %}">
+
+        </div>
+        <div class="contectMiddlePanel">
+            <h2>Search your account on Faceit</h2>
+
+            <form action="{% url 'addAccount' %}" method="post">{% csrf_token %}
+                <input class="form-control search-input-frontpage" type="text" name="nickname" size="30" placeholder="Nickname" autocomplete="off" autofocus="autofocus" aria-label="Input field" >
+                <input id="searchButton" class="search-button " type="submit" value="Search">
+                {% if messages %}
+                    {% for mess in messages %}
+                        {% if mess.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <div class="alert alert-danger" role="alert">
+                             {{ mess }}
+                        </div>
+                        {% endif %}
+                        {% if mess.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <div class="alert alert-success" role="alert">
+                             {{ mess }}
+                        </div>
+                        {% endif %}
+                    {%  endfor%}
+                {% endif %}
+
+
+            </form>
+
+        </div>
+        <div class="middlepane">
+        <h2 style="color: white">Recently added players</h2>
+            {% for acc in account %}
+            <div class="display-user">
+            <h4 style="color: white; margin: 7px; text-align: center">Player name:</h4>
+
+                <p><h4 style="text-align: center"><a class="player-names" href="{% url 'accountDetails' acc.id %}">{{ acc.accountUrl}}</a></h4></p>
+                <h4 style="color: white; text-align: center">Level: {{ acc.level }}</h4>
+                <img class="img-mine" src="{% if acc.avatar != "" %}{{ acc.avatar }}{% else %}{% static 'style/images/def.jpg' %} {% endif %}">
+
+            </div>
+
+        {% endfor %}
+</div>
+</div>
+{% endblock %}
